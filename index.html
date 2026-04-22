@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UK Family Trip — May 2026</title>
+<style>
+  :root {
+    --ncl: #2d6a4f;
+    --ncl-light: #d8f3dc;
+    --ncl-mid: #52b788;
+    --edin: #5e3a8c;
+    --edin-light: #ede7f6;
+    --edin-mid: #9c6cd4;
+    --lon: #c0392b;
+    --lon-light: #fdecea;
+    --lon-mid: #e74c3c;
+    --travel: #1a6091;
+    --travel-light: #e3f2fd;
+    --gold: #f0a500;
+    --dark: #1a1a2e;
+    --muted: #666;
+    --border: #e0e0e0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f0; color: #222; font-size: 15px; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white; padding: 48px 24px 40px; text-align: center;
+  }
+  .hero h1 { font-size: 2.2em; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .hero .subtitle { font-size: 1.1em; opacity: 0.8; margin-bottom: 28px; }
+  .hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat .num { font-size: 2em; font-weight: 700; color: #f0a500; }
+  .stat .lbl { font-size: 0.78em; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* CITY TABS */
+  .city-nav { display: flex; background: white; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; overflow-x: auto; }
+  .city-nav a { padding: 14px 20px; text-decoration: none; font-weight: 600; font-size: 0.88em; white-space: nowrap; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; }
+  .city-nav a:hover { color: #222; }
+  .city-nav a.ncl { color: var(--ncl); border-color: var(--ncl); }
+  .city-nav a.edin { color: var(--edin); border-color: var(--edin); }
+  .city-nav a.lon { color: var(--lon); border-color: var(--lon); }
+
+  /* LOGISTICS BAR */
+  .logistics { background: white; padding: 20px 24px; display: flex; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+  .log-card { flex: 1; min-width: 200px; background: #f8f9fa; border-radius: 10px; padding: 14px 16px; border-left: 4px solid var(--gold); }
+  .log-card .log-title { font-size: 0.72em; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
+  .log-card .log-body { font-size: 0.9em; font-weight: 600; color: var(--dark); }
+  .log-card .log-sub { font-size: 0.8em; color: var(--muted); margin-top: 3px; }
+
+  /* SECTION HEADERS */
+  .city-header { padding: 28px 24px 0; }
+  .city-header .city-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 18px; border-radius: 30px; font-weight: 700;
+    font-size: 0.95em; margin-bottom: 8px;
+  }
+  .city-header.ncl .city-badge { background: var(--ncl-light); color: var(--ncl); }
+  .city-header.edin .city-badge { background: var(--edin-light); color: var(--edin); }
+  .city-header.lon .city-badge { background: var(--lon-light); color: var(--lon); }
+  .city-header.travel .city-badge { background: var(--travel-light); color: var(--travel); }
+  .city-header h2 { font-size: 1.5em; font-weight: 800; margin-bottom: 4px; }
+  .city-header.ncl h2 { color: var(--ncl); }
+  .city-header.edin h2 { color: var(--edin); }
+  .city-header.lon h2 { color: var(--lon); }
+  .city-header.travel h2 { color: var(--travel); }
+  .city-header .city-hotel { font-size: 0.85em; color: var(--muted); padding: 4px 0 12px; }
+
+  /* DAY CARDS */
+  .days-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; padding: 16px 24px 8px; }
+  .day-card { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .day-header { padding: 16px 18px 12px; display: flex; align-items: flex-start; justify-content: space-between; }
+  .day-card.ncl .day-header { background: var(--ncl-light); border-bottom: 2px solid var(--ncl-mid); }
+  .day-card.edin .day-header { background: var(--edin-light); border-bottom: 2px solid var(--edin-mid); }
+  .day-card.lon .day-header { background: var(--lon-light); border-bottom: 2px solid var(--lon-mid); }
+  .day-card.travel .day-header { background: var(--travel-light); border-bottom: 2px solid #64b5f6; }
+  .day-num { font-size: 2em; font-weight: 800; line-height: 1; }
+  .day-card.ncl .day-num { color: var(--ncl); }
+  .day-card.edin .day-num { color: var(--edin); }
+  .day-card.lon .day-num { color: var(--lon); }
+  .day-card.travel .day-num { color: var(--travel); }
+  .day-title-block { flex: 1; padding-left: 12px; }
+  .day-name { font-weight: 700; font-size: 1em; color: #222; }
+  .day-date { font-size: 0.8em; color: var(--muted); }
+  .day-tag { font-size: 0.72em; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ncl .day-tag { background: var(--ncl); color: white; }
+  .edin .day-tag { background: var(--edin); color: white; }
+  .lon .day-tag { background: var(--lon); color: white; }
+  .travel .day-tag { background: var(--travel); color: white; }
+
+  .day-body { padding: 14px 18px; }
+  .period { margin-bottom: 14px; }
+  .period:last-child { margin-bottom: 0; }
+  .period-label { font-size: 0.7em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .period-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .activity { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px; }
+  .activity-icon { font-size: 1em; flex-shrink: 0; margin-top: 1px; }
+  .activity-text { font-size: 0.88em; line-height: 1.4; color: #333; }
+  .activity-text strong { color: #111; }
+  .activity-text .tip { font-size: 0.85em; color: var(--muted); font-style: italic; }
+
+  /* MEAL CARDS */
+  .meal-section { background: #fafafa; border-top: 1px solid var(--border); padding: 12px 18px; }
+  .meal-title { font-size: 0.7em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+  .meal { display: flex; gap: 10px; margin-bottom: 8px; }
+  .meal:last-child { margin-bottom: 0; }
+  .meal-type { font-size: 0.7em; font-weight: 700; text-transform: uppercase; color: white; padding: 2px 7px; border-radius: 10px; background: #aaa; flex-shrink: 0; height: fit-content; margin-top: 1px; }
+  .meal-type.breakfast { background: #e67e22; }
+  .meal-type.lunch { background: #27ae60; }
+  .meal-type.dinner { background: #8e44ad; }
+  .meal-info { font-size: 0.85em; }
+  .meal-name { font-weight: 600; color: #222; }
+  .meal-desc { color: var(--muted); font-size: 0.9em; }
+
+  /* LOGISTICS NOTE */
+  .logistics-note { margin: 6px 18px 14px; padding: 10px 14px; border-radius: 8px; font-size: 0.83em; display: flex; gap: 8px; align-items: flex-start; }
+  .logistics-note.car { background: #fff3e0; border-left: 3px solid #ff9800; }
+  .logistics-note.train { background: var(--travel-light); border-left: 3px solid var(--travel); }
+  .logistics-note.tip { background: #e8f5e9; border-left: 3px solid #4caf50; }
+  .logistics-note.warning { background: #fff8e1; border-left: 3px solid #ffc107; }
+
+  /* FULL-WIDTH TRAVEL CARD */
+  .travel-card { background: white; border-radius: 14px; margin: 16px 24px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); overflow: hidden; }
+  .travel-card .day-header { background: var(--travel-light); border-bottom: 2px solid #64b5f6; }
+  .travel-route { display: flex; align-items: center; gap: 12px; padding: 18px; flex-wrap: wrap; }
+  .route-stop { text-align: center; }
+  .route-stop .city-name { font-weight: 700; font-size: 1em; }
+  .route-stop .city-detail { font-size: 0.78em; color: var(--muted); }
+  .route-arrow { font-size: 1.5em; color: var(--muted); flex-shrink: 0; }
+  .route-label { font-size: 0.75em; background: #f0f4ff; border-radius: 8px; padding: 4px 10px; color: var(--travel); font-weight: 600; }
+
+  /* TIPS BOX */
+  .tips-section { background: white; margin: 16px 24px; border-radius: 14px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .tips-section h3 { font-size: 1em; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .tip-card { background: #f8f9fa; border-radius: 10px; padding: 12px 14px; border-left: 3px solid var(--gold); }
+  .tip-card .tip-head { font-weight: 700; font-size: 0.85em; margin-bottom: 4px; }
+  .tip-card .tip-body { font-size: 0.82em; color: var(--muted); line-height: 1.5; }
+
+  /* FOOTER */
+  footer { background: var(--dark); color: white; text-align: center; padding: 24px; font-size: 0.82em; opacity: 0.8; margin-top: 32px; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.6em; }
+    .days-grid { grid-template-columns: 1fr; padding: 12px 16px 8px; }
+    .city-header { padding: 20px 16px 0; }
+    .travel-card { margin: 12px 16px 8px; }
+    .tips-section { margin: 12px 16px; }
+    .logistics { padding: 16px; }
+  }
+
+  @media print {
+    .city-nav { display: none; }
+    .day-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🇬🇧 UK Family Trip 2026</h1>
+  <div class="subtitle">Karnad & Pai Mangalore Family · 15 – 25 May 2026</div>
+  <div class="hero-stats">
+    <div class="stat"><div class="num">11</div><div class="lbl">Days</div></div>
+    <div class="stat"><div class="num">3</div><div class="lbl">Cities</div></div>
+    <div class="stat"><div class="num">6</div><div class="lbl">Travellers</div></div>
+    <div class="stat"><div class="num">VS317</div><div class="lbl">Inbound</div></div>
+    <div class="stat"><div class="num">VS316</div><div class="lbl">Outbound</div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="city-nav">
+  <a href="#overview">Overview</a>
+  <a href="#newcastle" class="ncl">🏙 Newcastle</a>
+  <a href="#edinburgh" class="edin">🏰 Edinburgh</a>
+  <a href="#transfer">🚄 Transfer Day</a>
+  <a href="#london" class="lon">🎡 London</a>
+  <a href="#tips">💡 Tips</a>
+</nav>
+
+<!-- LOGISTICS -->
+<div id="overview" class="logistics">
+  <div class="log-card">
+    <div class="log-title">✈️ Arrival</div>
+    <div class="log-body">VS317 → Newcastle (NCL)</div>
+    <div class="log-sub">Friday 15 May 2026</div>
+  </div>
+  <div class="log-card">
+    <div class="log-title">🏨 Newcastle Hotel</div>
+    <div class="log-body">Hilton Newcastle Gateshead</div>
+    <div class="log-sub">15–18 May · 3 nights · Ref: 6065.437.565</div>
+  </div>
+  <div class="log-card">
+    <div class="log-title">🏨 Edinburgh Stay</div>
+    <div class="log-body">9 Western Harbour View, Leith</div>
+    <div class="log-sub">18–21 May · 3 nights · EH6 6PG</div>
+  </div>
+  <div class="log-card">
+    <div class="log-title">🏨 London Hotel</div>
+    <div class="log-body">Mercure London Earls Court</div>
+    <div class="log-sub">21–25 May · 4 nights · Ref: QGGPFBTL</div>
+  </div>
+  <div class="log-card">
+    <div class="log-title">🚗 Rental Car</div>
+    <div class="log-body">Peugeot 5008 Auto (7-seater)</div>
+    <div class="log-sub">Pickup Day 2 (16 May) · Return NCL 21 May</div>
+  </div>
+  <div class="log-card">
+    <div class="log-title">✈️ Departure</div>
+    <div class="log-body">VS316 → India</div>
+    <div class="log-sub">Monday 25 May · London Heathrow</div>
+  </div>
+</div>
+
+<!-- ===================== NEWCASTLE ===================== -->
+<div id="newcastle" class="city-header ncl">
+  <div class="city-badge">🏙 Newcastle upon Tyne</div>
+  <h2>Newcastle — Days 1 to 3</h2>
+  <div class="city-hotel">🏨 Hilton Newcastle Gateshead · Bottle Bank, Gateshead NE8 2AR · 15–18 May</div>
+</div>
+
+<div class="days-grid">
+
+  <!-- DAY 1 -->
+  <div class="day-card ncl">
+    <div class="day-header">
+      <div class="day-num">1</div>
+      <div class="day-title-block">
+        <div class="day-name">Arrival Day</div>
+        <div class="day-date">Friday, 15 May</div>
+      </div>
+      <div class="day-tag">Newcastle</div>
+    </div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">✈️ Arrival</div>
+        <div class="activity"><span class="activity-icon">🛬</span><div class="activity-text"><strong>Arrive Newcastle Airport (NCL)</strong> via VS317<br><span class="tip">Siddarth can meet you at the airport or hotel — he knows NCL well</span></div></div>
+        <div class="activity"><span class="activity-icon">🚕</span><div class="activity-text">Taxi or rideshare to <strong>Hilton Newcastle Gateshead</strong> (~15 min, ~£25)</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">🌆 Evening</div>
+        <div class="activity"><span class="activity-icon">🚶</span><div class="activity-text"><strong>Quayside stroll</strong> — the iconic Tyne Bridge is lit up beautifully at night. Just a 5-min walk from the Hilton</div></div>
+        <div class="activity"><span class="activity-icon">🌉</span><div class="activity-text">Gateshead Millennium Bridge (the "Blinking Eye") is right by the hotel — great for first photos</div></div>
+        <div class="activity"><span class="activity-icon">🎵</span><div class="activity-text"><strong>Crown Posada</strong> — 31 The Side, Newcastle · One of Newcastle's oldest and most beautiful pubs, a short walk from the Quayside. Live folk &amp; jazz sessions most evenings. Family-friendly before 9pm. Excellent real ales.</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">The Broad Chare</div><div class="meal-desc">25 Broad Chare, Quayside · Excellent British pub food, warm atmosphere, great for the first night</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-card ncl">
+    <div class="day-header">
+      <div class="day-num">2</div>
+      <div class="day-title-block">
+        <div class="day-name">Newcastle City</div>
+        <div class="day-date">Saturday, 16 May</div>
+      </div>
+      <div class="day-tag">Newcastle</div>
+    </div>
+    <div class="logistics-note car">🚗 <span>Pick up the <strong>Peugeot 5008</strong> at NCL Airport this morning. Siddarth can guide the drive back. Remember: IDP + Indian licence required at the desk.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning</div>
+        <div class="activity"><span class="activity-icon">🚗</span><div class="activity-text">Drive to NCL, collect Peugeot 5008. Return to hotel to park (~15 min)</div></div>
+        <div class="activity"><span class="activity-icon">🏰</span><div class="activity-text"><strong>Newcastle Castle &amp; Black Gate</strong> — the medieval keep with panoramic city views. Great for Vedh. (~£8/adult, ~£5/child)</div></div>
+        <div class="activity"><span class="activity-icon">🧱</span><div class="activity-text">Walk sections of the surviving <strong>medieval city walls</strong> nearby</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🌉</span><div class="activity-text"><strong>Tyne Bridge walk</strong> — iconic, short, and very scenic. Free.</div></div>
+        <div class="activity"><span class="activity-icon">🎨</span><div class="activity-text"><strong>BALTIC Centre for Contemporary Art</strong> — Gateshead side, just across the Millennium Bridge. Free entry. Stunning views from the rooftop.</div></div>
+        <div class="activity"><span class="activity-icon">🛍</span><div class="activity-text">Browse <strong>Grey Street</strong> — one of England's finest Victorian streets, gentle downhill walk (senior-friendly)</div></div>
+        <div class="activity"><span class="activity-icon">🎸</span><div class="activity-text"><strong>The Cluny</strong> (evening) — 36 Lime St, Ouseburn Valley · Brilliant live music venue in a converted mill, 10-min drive from the hotel. Kid-friendly early evening. Eclectic programme — folk, indie, jazz. Check listings at thecluny.com</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">Hilton Restaurant</div><div class="meal-desc">Full cooked breakfast included — fuel up before the castle visit</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">Quayside Market / Barluga</div><div class="meal-desc">Dean Street, Quayside · Relaxed, varied menu, outdoor seating on sunny days</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">Dobson &amp; Parnell</div><div class="meal-desc">21 Queen St · Upscale British brasserie, excellent for a celebratory first full dinner</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-card ncl">
+    <div class="day-header">
+      <div class="day-num">3</div>
+      <div class="day-title-block">
+        <div class="day-name">Hadrian's Wall</div>
+        <div class="day-date">Sunday, 17 May</div>
+      </div>
+      <div class="day-tag">Day Trip</div>
+    </div>
+    <div class="logistics-note tip">💡 <span>Drive ~45 min west on the A69. Allow a full day — the Wall area is sprawling. Wear comfortable shoes and bring layers.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning</div>
+        <div class="activity"><span class="activity-icon">🚗</span><div class="activity-text">Drive to <strong>Housesteads Roman Fort</strong> — best preserved fort on the Wall. (~45 min from Newcastle)</div></div>
+        <div class="activity"><span class="activity-icon">🏛</span><div class="activity-text"><strong>Housesteads</strong> — English Heritage site, short uphill walk (~10 min). Stunning views over the Wall. ~£12/adult, ~£7/child. <span class="tip">Book tickets online to avoid queues</span></div></div>
+        <div class="activity"><span class="activity-icon">🧱</span><div class="activity-text">Walk a short section of the actual Wall — flat enough for seniors, unforgettable views</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🏺</span><div class="activity-text"><strong>Vindolanda Roman Site</strong> — 10 min from Housesteads. Active archaeological dig, excellent museum. Vedh will love the finds. ~£9/adult</div></div>
+        <div class="activity"><span class="activity-icon">🚗</span><div class="activity-text">Drive back to Newcastle (~45 min)</div></div>
+        <div class="activity"><span class="activity-icon">🛀</span><div class="activity-text">Rest at hotel — long day on foot, especially for Jayanth and Manjushree</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">Hilton Restaurant</div><div class="meal-desc">Early start recommended — aim to leave by 9:30am</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">The Twice Brewed Inn</div><div class="meal-desc">Military Road, Bardon Mill · Classic English pub right by the Wall. Hearty food, real ales, warm fire</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">Quayside or Hotel</div><div class="meal-desc">After a big day, a relaxed dinner close to the hotel — Quayside has plenty of options within walking distance</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EDINBURGH ===================== -->
+<div id="edinburgh" class="city-header edin">
+  <div class="city-badge">🏰 Edinburgh, Scotland</div>
+  <h2>Edinburgh — Days 4 to 6</h2>
+  <div class="city-hotel">🏠 Airbnb · 9 Western Harbour View, Leith EH6 6PG · 18–21 May · Host: Tony</div>
+</div>
+
+<div class="days-grid">
+
+  <!-- DAY 4 -->
+  <div class="day-card edin">
+    <div class="day-header">
+      <div class="day-num">4</div>
+      <div class="day-title-block">
+        <div class="day-name">Drive to Edinburgh</div>
+        <div class="day-date">Monday, 18 May</div>
+      </div>
+      <div class="day-tag">Edinburgh</div>
+    </div>
+    <div class="logistics-note car">🚗 <span>Check out of Hilton. Drive NCL → Edinburgh via A1 (~2.5 hrs). Airbnb check-in from 3pm — call host Tony to confirm arrival time.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning</div>
+        <div class="activity"><span class="activity-icon">🏨</span><div class="activity-text">Check out Hilton Newcastle Gateshead. Load the Peugeot.</div></div>
+        <div class="activity"><span class="activity-icon">🚗</span><div class="activity-text">Drive north on A1 towards Edinburgh. Scenic Northumberland coast route available (add 30 min)</div></div>
+        <div class="activity"><span class="activity-icon">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><div class="activity-text">Optional stop: <strong>Berwick-upon-Tweed</strong> — charming border town, old bridges, lovely riverside walk. 1 hr from Newcastle</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🏠</span><div class="activity-text">Arrive Edinburgh, check in at <strong>9 Western Harbour View, Leith</strong>. 3-bedroom apartment. <span class="tip">Note: 3 miles from city centre — use the car or local buses (Lothian Buses are excellent)</span></div></div>
+        <div class="activity"><span class="activity-icon">⚓</span><div class="activity-text"><strong>Leith Waterfront walk</strong> — the Shore area is beautifully restored with canal-side cafés, galleries and the Royal Yacht Britannia nearby</div></div>
+        <div class="activity"><span class="activity-icon">👑</span><div class="activity-text">Optional: <strong>Royal Yacht Britannia</strong> — docked at Leith. Fascinating tour, excellent for seniors. ~£18/adult. <span class="tip">Book ahead online</span></div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">Hilton (before checkout)</div><div class="meal-desc">Have a good breakfast before the drive</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">Berwick or roadside</div><div class="meal-desc">Berwick's Barrels Alehouse or grab sandwiches for the road</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">The Ship on the Shore</div><div class="meal-desc">24 The Shore, Leith · Renowned seafood restaurant right at the waterfront. Iconic Edinburgh dining. Book ahead.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="day-card edin">
+    <div class="day-header">
+      <div class="day-num">5</div>
+      <div class="day-title-block">
+        <div class="day-name">Edinburgh City</div>
+        <div class="day-date">Tuesday, 19 May</div>
+      </div>
+      <div class="day-tag">Edinburgh</div>
+    </div>
+    <div class="logistics-note warning">⚠️ <span>Book <strong>Edinburgh Castle tickets</strong> online in advance — queues can be 45+ min without a booking. Opens 9:30am.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning</div>
+        <div class="activity"><span class="activity-icon">🏰</span><div class="activity-text"><strong>Edinburgh Castle</strong> — the crown jewels, the Stone of Destiny, and sweeping city views. Allow 2 hours. ~£19/adult, ~£11/child. <span class="tip">Drive to the Old Town and park on Castle Terrace (~£4/hr)</span></div></div>
+        <div class="activity"><span class="activity-icon">👑</span><div class="activity-text">Crown Jewels and Royal Palace are must-sees. The café inside has lovely views.</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🥃</span><div class="activity-text"><strong>Scotch Whisky Experience</strong> — 354 Castlehill, right next to the castle exit. Immersive 1-hour tour through the five whisky regions with a ghost-train-style barrel ride, followed by a tutored tasting. ~£20/adult. Kids join the full tour (non-alcoholic tasting option). <span class="tip">Book online at scotchwhiskyexperience.co.uk — fills up fast</span></div></div>
+        <div class="activity"><span class="activity-icon">🚶</span><div class="activity-text"><strong>Royal Mile walk</strong> — stroll downhill from the castle through the heart of Old Town. Shops, closes (alleyways), street performers</div></div>
+        <div class="activity"><span class="activity-icon">🏛</span><div class="activity-text"><strong>National Museum of Scotland</strong> — Free entry. World-class collection. <strong>Vedh will love the science &amp; technology galleries.</strong> Allow 2 hours</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">🎵 Evening (optional)</div>
+        <div class="activity"><span class="activity-icon">🎻</span><div class="activity-text"><strong>Sandy Bell's pub</strong> — 25 Forrest Rd, 5-min walk from Ondine. Edinburgh's most famous folk music pub. Traditional Scottish sessions every night from ~9pm. Small, intimate, genuinely local. Kids welcome early evening. Free entry.</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">At the Airbnb</div><div class="meal-desc">Self-catering — grab groceries from a nearby Lidl/Sainsbury's the evening before. Early start for the castle.</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">Deacon Brodie's Tavern</div><div class="meal-desc">435 Lawnmarket, Royal Mile · Classic Edinburgh pub, excellent haggis and traditional Scottish dishes. Very central.</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">Ondine Restaurant</div><div class="meal-desc">2 George IV Bridge · Award-winning seafood in Old Town. Crustacean bar, excellent vegetarian options. Book ahead.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="day-card edin">
+    <div class="day-header">
+      <div class="day-num">6</div>
+      <div class="day-title-block">
+        <div class="day-name">Loch Lomond Day Trip</div>
+        <div class="day-date">Wednesday, 20 May</div>
+      </div>
+      <div class="day-tag">Day Trip</div>
+    </div>
+    <div class="logistics-note car">🚗 <span>Drive: Edinburgh → Balloch (~1.5 hrs via M9/A811). Easy, well-signposted. Last night in Edinburgh — enjoy Leith.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning</div>
+        <div class="activity"><span class="activity-icon">🚗</span><div class="activity-text">Early drive west to <strong>Loch Lomond &amp; The Trossachs National Park</strong></div></div>
+        <div class="activity"><span class="activity-icon">🏔</span><div class="activity-text"><strong>Balloch</strong> — gateway town at the south end of the loch. Loch Lomond Shores visitor centre, boat cruises, scenic walks along the water. All flat, senior-friendly.</div></div>
+        <div class="activity"><span class="activity-icon">⛵</span><div class="activity-text">Optional: <strong>Cruise on Loch Lomond</strong> — Sweeney's Cruises run from Balloch. ~£12/adult. Vedh will love it. ~1 hour round trip</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🏡</span><div class="activity-text">Drive to <strong>Luss village</strong> (15 min north of Balloch) — one of Scotland's prettiest villages, right on the loch shore. Perfect for photos.</div></div>
+        <div class="activity"><span class="activity-icon">🚗</span><div class="activity-text">Drive back to Edinburgh (~1.5 hrs). Arrive late afternoon.</div></div>
+        <div class="activity"><span class="activity-icon">🛄</span><div class="activity-text">Evening: Pack and prepare for tomorrow's early departure to London</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">At the Airbnb</div><div class="meal-desc">Prepare and eat early — aim to leave Edinburgh by 8:30am</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">The Village Rest, Luss</div><div class="meal-desc">Main Road, Luss · Beautiful lakeside pub, Scottish classics. Outdoor seating with direct loch views. Booking advised.</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">Fishers Leith</div><div class="meal-desc">1 The Shore, Leith · Legendary Edinburgh seafood bistro. Perfect farewell Edinburgh dinner — classic, relaxed, delicious.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TRANSFER DAY ===================== -->
+<div id="transfer" class="city-header travel">
+  <div class="city-badge">🚄 Transfer Day</div>
+  <h2>Edinburgh → Newcastle → London</h2>
+  <div class="city-hotel">Thursday, 21 May · Drop luggage at Sid's · Return car at NCL · LNER to London</div>
+</div>
+
+<div class="travel-card">
+  <div class="day-header">
+    <div class="day-num" style="color: var(--travel);">7</div>
+    <div class="day-title-block">
+      <div class="day-name">Big Travel Day</div>
+      <div class="day-date">Thursday, 21 May</div>
+    </div>
+    <div class="day-tag" style="background: var(--travel); color: white;">Transfer</div>
+  </div>
+  <div class="travel-route">
+    <div class="route-stop"><div class="city-name" style="color:var(--edin)">🏰 Edinburgh</div><div class="city-detail">Checkout Airbnb</div></div>
+    <div class="route-arrow">→</div>
+    <div class="route-label">🚗 ~2 hrs drive</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="city-name" style="color:var(--ncl)">🏙 Newcastle</div><div class="city-detail">Sid's house + Return car</div></div>
+    <div class="route-arrow">→</div>
+    <div class="route-label">🚄 ~3 hrs LNER</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="city-name" style="color:var(--lon)">🎡 London</div><div class="city-detail">King's Cross → Earl's Court</div></div>
+  </div>
+  <div style="padding: 0 18px 18px;">
+    <div class="logistics-note car">🚗 <span><strong>Early start — leave Edinburgh by 7:30–8:00am.</strong> Drive Edinburgh → Newcastle on A1 (~2 hrs). Head to Sid's place to drop heavy/bulky luggage. Only take London essentials in smaller bags.</span></div>
+    <div class="logistics-note car">🏁 <span>Return the <strong>Peugeot 5008</strong> at Newcastle Airport (NCL). Allow 30 min for the return process.</span></div>
+    <div class="logistics-note train">🚄 <span>Take the <strong>LNER train</strong> from <strong>Newcastle Central Station</strong> to <strong>London King's Cross</strong>. Journey: ~3 hours. Trains run every 30 min. Book at <strong>lner.co.uk</strong> — Advance fares from ~£35–50/person. Recommended departure: <strong>12:00 or 13:00</strong> to arrive London by 15:00–16:00.</span></div>
+    <div class="logistics-note tip">🚇 <span>From <strong>King's Cross</strong>, take the <strong>Piccadilly Line</strong> to <strong>Earl's Court</strong> (~30 min, direct). The Mercure is a 5-min walk from the station.</span></div>
+  </div>
+  <div class="meal-section">
+    <div class="meal-title">🍽 Dining Suggestions</div>
+    <div class="meal">
+      <span class="meal-type breakfast">Breakfast</span>
+      <div class="meal-info"><div class="meal-name">Quick breakfast at Airbnb before checkout</div><div class="meal-desc">Early day — have something light before the drive</div></div>
+    </div>
+    <div class="meal">
+      <span class="meal-type lunch">Lunch</span>
+      <div class="meal-info"><div class="meal-name">Newcastle or on the train</div><div class="meal-desc">Quick bite near Newcastle station before boarding, or LNER trains have a good café/trolley service</div></div>
+    </div>
+    <div class="meal">
+      <span class="meal-type dinner">Dinner</span>
+      <div class="meal-info"><div class="meal-name">Near Mercure Earls Court</div><div class="meal-desc">Earls Court Road has a great range — try Troubadour (historic café-restaurant) or Tinello (Italian, 9 min walk on Fulham Rd)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LONDON ===================== -->
+<div id="london" class="city-header lon">
+  <div class="city-badge">🎡 London</div>
+  <h2>London — Days 8 to 11</h2>
+  <div class="city-hotel">🏨 Mercure London Earls Court · 47 Lillie Road SW6 1UD · 21–25 May · Ref: QGGPFBTL · Breakfast included</div>
+</div>
+
+<div class="days-grid">
+
+  <!-- DAY 8 -->
+  <div class="day-card lon">
+    <div class="day-header">
+      <div class="day-num">8</div>
+      <div class="day-title-block">
+        <div class="day-name">Legoland Windsor 🧱</div>
+        <div class="day-date">Friday, 22 May</div>
+      </div>
+      <div class="day-tag">Day Trip</div>
+    </div>
+    <div class="logistics-note train">🚂 <span>Train from <strong>London Waterloo → Windsor &amp; Eton Riverside</strong> (South Western Railway, ~55 min, runs every 30 min). From Earl's Court: Tube ~25 min to Waterloo. Legoland is a 10-min taxi from Windsor station (~£8). Alternatively, the Legoland Express bus runs from the station.</span></div>
+    <div class="logistics-note warning">⚠️ <span><strong>Book Legoland tickets online in advance</strong> — on-the-door prices are ~£65/adult, ~£60/child. Online (legoland.co.uk) can be significantly cheaper. Opens 10am. This is Vedh's day!</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning — Leave Early</div>
+        <div class="activity"><span class="activity-icon">🚂</span><div class="activity-text">Leave hotel by 8:30am. Tube to Waterloo (~25 min), train to Windsor (~55 min). Aim to arrive Legoland by 10:15am — the early crowd is lighter</div></div>
+        <div class="activity"><span class="activity-icon">🏰</span><div class="activity-text"><strong>Miniland</strong> — Lego-scale models of UK and world landmarks including Big Ben, Tower Bridge, Buckingham Palace and the Eiffel Tower. Don't miss this — it's extraordinary detail</div></div>
+        <div class="activity"><span class="activity-icon">🐉</span><div class="activity-text"><strong>The Dragon</strong> — Legoland's classic family rollercoaster. Vedh will want to ride it multiple times</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🥷</span><div class="activity-text"><strong>LEGO Ninjago</strong> — interactive ride, great for all ages. <strong>Knight's Kingdom</strong> has water rides (bring a change for Vedh in May!)</div></div>
+        <div class="activity"><span class="activity-icon">🎠</span><div class="activity-text"><strong>DUPLO Valley</strong> — gentler rides if Jayanth and Manjushree want to sit with a coffee while Vedh plays</div></div>
+        <div class="activity"><span class="activity-icon">🚂</span><div class="activity-text">Head back: taxi to Windsor station, train to Waterloo, Tube to Earl's Court. Back at hotel by ~7pm</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">Mercure Hotel</div><div class="meal-desc">Included — eat well before a big day. Pack snacks: park food is expensive</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">Inside Legoland</div><div class="meal-desc">Bricks Family Restaurant or Skyline Restaurant inside the park. Budget ~£15/person. Or bring sandwiches in — outside food is permitted in designated areas</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">The Troubadour</div><div class="meal-desc">263 Old Brompton Rd (7-min walk from Mercure) · Legendary London café-restaurant with live music most evenings. Dylan, Hendrix and Joni Mitchell all played here. Warm, intimate, kid-friendly. Check listings at troubadour.co.uk</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 9 -->
+  <div class="day-card lon">
+    <div class="day-header">
+      <div class="day-num">9</div>
+      <div class="day-title-block">
+        <div class="day-name">Royal London</div>
+        <div class="day-date">Saturday, 23 May</div>
+      </div>
+      <div class="day-tag">London</div>
+    </div>
+    <div class="logistics-note tip">👑 <span>Changing of the Guard at Buckingham Palace is usually 11:00am on Saturdays. Confirm at <strong>householddivision.org.uk</strong> — check closer to the date as it can be cancelled.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning</div>
+        <div class="activity"><span class="activity-icon">👑</span><div class="activity-text"><strong>Buckingham Palace</strong> — arrive by 10:30am for a good viewing spot for the Changing of the Guard (11am). Free, outdoors, great for Vedh.</div></div>
+        <div class="activity"><span class="activity-icon">🌳</span><div class="activity-text"><strong>St James's Park</strong> — beautiful Royal Park, duck lake, views of the Palace and Horse Guards. Flat, easy walking.</div></div>
+        <div class="activity"><span class="activity-icon">🏛</span><div class="activity-text"><strong>Westminster</strong> — Big Ben, Houses of Parliament, Westminster Bridge. All exterior viewing — free and iconic.</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🥩</span><div class="activity-text"><strong>Borough Market</strong> (open Saturdays 10am–5pm) — London's best food market. Take the Tube: Victoria → London Bridge. Incredible variety of world foods. Great for lunch.</div></div>
+        <div class="activity"><span class="activity-icon">🏰</span><div class="activity-text"><strong>Tower of London</strong> — Crown Jewels, Beefeaters, medieval history. ~£30/adult, ~£15/child. Allow 2 hours. <span class="tip">Book online to save ~£5 per ticket</span></div></div>
+        <div class="activity"><span class="activity-icon">🌉</span><div class="activity-text"><strong>Tower Bridge</strong> — walk across for views of the Thames. The glass walkway is optional (~£12) but spectacular.</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">Mercure Hotel</div><div class="meal-desc">Included — fuel up before a big London day</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">Borough Market</div><div class="meal-desc">Graze your way around the stalls — Raclette, scotch eggs, fresh bread, international street food. Budget £12–15/person</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">Gymkhana</div><div class="meal-desc">42 Albemarle St, Mayfair · Michelin-starred modern Indian — a treat for the whole family. Book weeks ahead. Spectacular food.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 10 -->
+  <div class="day-card lon">
+    <div class="day-header">
+      <div class="day-num">10</div>
+      <div class="day-title-block">
+        <div class="day-name">Cotswolds &amp; Clarkson's Farm 🚜</div>
+        <div class="day-date">Sunday, 24 May</div>
+      </div>
+      <div class="day-tag">Day Trip</div>
+    </div>
+    <div class="logistics-note train">🚂 <span>Train from <strong>London Paddington → Kingham</strong> (~1 hr 40 min, Chiltern Railways). Then <strong>taxi 5 miles</strong> to Chadlington (~£12). Pre-book the taxi from Kingham — it's a small village. Return same way.</span></div>
+    <div class="logistics-note warning">⚠️ <span><strong>Diddly Squat Farm Shop</strong> (Chadlington OX7 3NX) opens around 9am and can sell out of popular items by lunchtime. <strong>The Farmer's Dog pub</strong> is hugely popular — book ahead at thefarmersdogchadlington.com. Sunday lunches fill up fast.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning — Early Train</div>
+        <div class="activity"><span class="activity-icon">🚂</span><div class="activity-text">Take an early train from Paddington (~8:30am departure, arrive Kingham ~10:15am). Taxi to <strong>Diddly Squat Farm Shop</strong> — Jeremy Clarkson's famous farm from Clarkson's Farm on Amazon Prime</div></div>
+        <div class="activity"><span class="activity-icon">🐄</span><div class="activity-text">Browse the farm shop — Clarkson's honey, candles, produce, and the iconic merch. Vedh will love it if he's watched the show. The farm is working so you may spot the tractors!</div></div>
+        <div class="activity"><span class="activity-icon">🌾</span><div class="activity-text">Short stroll through the surrounding Oxfordshire countryside — rolling fields, dry stone walls, classic English landscape</div></div>
+      </div>
+      <div class="period">
+        <div class="period-label">☀️ Afternoon</div>
+        <div class="activity"><span class="activity-icon">🍺</span><div class="activity-text"><strong>The Farmer's Dog pub</strong> — Chadlington OX7 3LY · Clarkson's gastropub, 5-min drive from Diddly Squat. Excellent Sunday roast, local ales. Beautiful low-beamed Cotswolds pub interior. <span class="tip">Booking essential — thefarmersdogchadlington.com</span></div></div>
+        <div class="activity"><span class="activity-icon">🏡</span><div class="activity-text">Drive/taxi 20 min to <strong>Burford</strong> — one of the Cotswolds' most beautiful villages. Honey-stone buildings, antique shops, independent boutiques. The High Street slopes gently down to the River Windrush — perfect for a stroll</div></div>
+        <div class="activity"><span class="activity-icon">🚂</span><div class="activity-text">Taxi back to Kingham station, train to Paddington (~5pm), back at hotel by 7pm</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">Mercure Hotel</div><div class="meal-desc">Early start — eat at the hotel before heading to Paddington</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type lunch">Lunch</span>
+        <div class="meal-info"><div class="meal-name">The Farmer's Dog, Chadlington</div><div class="meal-desc">Jeremy Clarkson's gastropub · Sunday roast is exceptional. Local Oxfordshire ales on tap. Book the 12:30pm or 1pm slot. Budget ~£25/person.</div></div>
+      </div>
+      <div class="meal">
+        <span class="meal-type dinner">Dinner</span>
+        <div class="meal-info"><div class="meal-name">Farewell Dinner</div><div class="meal-desc">Celebrate the last night! Dishoom King's Cross (near Paddington return route) or Benares (Indian fine dining, Mayfair) — book ahead. You've earned it.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 11 -->
+  <div class="day-card lon">
+    <div class="day-header">
+      <div class="day-num">11</div>
+      <div class="day-title-block">
+        <div class="day-name">Departure Day</div>
+        <div class="day-date">Monday, 25 May</div>
+      </div>
+      <div class="day-tag">London</div>
+    </div>
+    <div class="logistics-note warning">⚠️ <span>Allow <strong>3 hours before departure</strong> for international check-in at Heathrow. Confirm VS316 departure terminal on the Virgin Atlantic app the night before.</span></div>
+    <div class="day-body">
+      <div class="period">
+        <div class="period-label">🌅 Morning</div>
+        <div class="activity"><span class="activity-icon">🏨</span><div class="activity-text">Check out Mercure London Earls Court. Store bags with concierge if needed.</div></div>
+        <div class="activity"><span class="activity-icon">🚇</span><div class="activity-text">Transfer to <strong>London Heathrow</strong> — Piccadilly Line from Earl's Court, direct. ~30 min. Very convenient — no need for a cab.</div></div>
+        <div class="activity"><span class="activity-icon">✈️</span><div class="activity-text">Depart on <strong>VS316</strong> back to India. Safe travels!</div></div>
+      </div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-title">🍽 Dining Suggestions</div>
+      <div class="meal">
+        <span class="meal-type breakfast">Breakfast</span>
+        <div class="meal-info"><div class="meal-name">Mercure Hotel</div><div class="meal-desc">One last hotel breakfast before heading to Heathrow</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TIPS ===================== -->
+<div id="tips" class="tips-section">
+  <h3>💡 Essential Tips for the Trip</h3>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-head">🚗 Driving in the UK</div>
+      <div class="tip-body">Left-hand traffic — same as India. Speed limits are in MPH: 30 in towns, 70 on motorways. Always carry IDP + Indian licence + passport when driving.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">🚇 London Transport</div>
+      <div class="tip-body">Get an Oyster card or use contactless bank card — tap in and out at every Tube/bus journey. Much cheaper than buying tickets. The Piccadilly Line is your best friend from Earl's Court.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">☀️ May Weather</div>
+      <div class="tip-body">Expect 12–18°C. Pack layers — a light jacket, a warm mid-layer, and a waterproof shell. May can have brilliant sunny spells but also sudden showers, especially in Scotland.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">👴 Seniors &amp; Vedh</div>
+      <div class="tip-body">Most London museums have lifts and wheelchairs available. Edinburgh Old Town has steep steps — take it slow. Hadrian's Wall is manageable on flat sections. Vedh will need reins or a hand near busy roads.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">💷 Money</div>
+      <div class="tip-body">Most places are contactless. Carry some cash (£50–100) for small shops, tips, and markets like Borough. ATMs are everywhere — use a Wise or Revolut card for best exchange rates.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">📱 Connectivity</div>
+      <div class="tip-body">Buy a UK SIM at the airport (Vodafone / EE). Or activate an international plan before departure. WhatsApp works well for group coordination. Download Google Maps offline for NCL, Edinburgh, and London.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">🎟 Pre-Book These</div>
+      <div class="tip-body">Edinburgh Castle, Scotch Whisky Experience, Tower of London, Legoland Windsor, The Farmer's Dog pub (Chadlington), Gymkhana (London), Ondine (Edinburgh). May is peak season — book 4–6 weeks ahead.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">🚄 LNER Train (Day 7)</div>
+      <div class="tip-body">Book Newcastle → King's Cross in advance at lner.co.uk. Advance fares from ~£35/person. Standard class is perfectly comfortable for a 3-hour trip. Seats at a table are best for the group.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">🎵 Live Music Pubs</div>
+      <div class="tip-body"><strong>Newcastle:</strong> Crown Posada (The Side, folk/jazz nightly), The Cluny (Ouseburn, eclectic live bands). <strong>Edinburgh:</strong> Sandy Bell's (Forrest Rd, traditional Scottish folk sessions every night, free). <strong>London:</strong> The Troubadour (Old Brompton Rd, 7-min from hotel, historic live music venue). All kid-friendly before 9pm.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">🥃 Whisky Tips</div>
+      <div class="tip-body">The Scotch Whisky Experience (Day 5) gives a great overview of all five Scottish whisky regions — Speyside, Highland, Islay, Lowland, Campbeltown. For a bottle to take home, visit Royal Mile Whiskies (379 High St, Edinburgh) — expert staff, huge selection. Ask for an Islay single malt (peaty/smoky) or a Speyside (lighter, fruity).</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">🦕 Museums (Rainy Day)</div>
+      <div class="tip-body">If you want a London museum day, Natural History Museum (free, South Kensington) and Science Museum (free, next door) are unmissable — especially for Vedh. British Museum (free, Holborn) has incredible South Asia and India collections. All easily reachable by Tube.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  UK Family Trip 2026 · Karnad &amp; Pai Mangalore Family · 15–25 May · VS317 → VS316
+</footer>
+
+</body>
+</html>
